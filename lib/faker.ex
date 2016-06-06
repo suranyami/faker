@@ -32,7 +32,7 @@ defmodule Faker do
   end
 
   defp format(<<"#" :: utf8, tail :: binary>>, acc) do
-    format(tail, <<acc :: binary, "#{:crypto.rand_uniform(0, 10)}">>)
+    format(tail, <<acc :: binary, "#{random(10)}">>)
   end
 
   defp format(<<"?" :: utf8, tail :: binary>>, acc) do
@@ -48,8 +48,7 @@ defmodule Faker do
   end
 
   defp letter do
-    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-    Enum.at(alphabet, :crypto.rand_uniform(0, Enum.count(alphabet)))
+    Enum.at('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', random(52))
   end
 
   @doc """
@@ -68,6 +67,14 @@ defmodule Faker do
     Application.get_env(:faker, :locale)
   end
 
+  def random(total), do: random(Application.get_env(:faker, :random_function), total)
+  defp random({mod, fun}, total), do: apply(mod, fun, [total])
+  def default_random(total), do: :crypto.rand_uniform(0, total)
+
+  def random_between(min, max), do: random_between(Application.get_env(:faker, :random_between_function), min, max)
+  defp random_between({mod, fun}, min, max), do: apply(mod, fun, [min, max])
+  def default_random_between(min, max), do: :crypto.rand_uniform(min, max)
+
   @doc """
   Sets application locale.
   """
@@ -76,13 +83,17 @@ defmodule Faker do
     Application.put_env(:faker, :locale, lang)
   end
 
+  def append(str, suffix) do
+    str <> suffix
+  end
+
   defmacro sampler(name, data) do
     count = Enum.count(data)
 
     quote do
       def unquote(name)() do
         unquote(data)
-        |> Enum.at(:crypto.rand_uniform(0, unquote(count)))
+        |> Enum.at(Faker.random(unquote(count)))
       end
     end
   end
@@ -93,7 +104,7 @@ defmodule Faker do
     quote do
       defp unquote(name)() do
         unquote(data)
-        |> Enum.at(:crypto.rand_uniform(0, unquote(count)))
+        |> Enum.at(Faker.random(unquote(count)))
       end
     end
   end

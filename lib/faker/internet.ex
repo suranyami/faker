@@ -1,4 +1,5 @@
 defmodule Faker.Internet do
+  import Faker, only: [random: 1, random_between: 2, append: 2]
   @moduledoc """
   Functions for generating internet related data
   """
@@ -24,11 +25,19 @@ defmodule Faker.Internet do
   """
   @spec user_name() :: String.t
   def user_name do
-    user_name(:crypto.rand_uniform(0, 2))
+    # user_name(random(2))
+    user_name(0)
   end
 
-  defp user_name(0), do: "#{Faker.Name.first_name |> String.replace(~s(  ), ~s()) |> String.downcase}#{:crypto.rand_uniform(1900, 2100)}"
-  defp user_name(1), do: "#{:random.seed(:os.timestamp); [ Faker.Name.first_name, Faker.Name.last_name  ] |> Enum.map_join(hd(Enum.shuffle(~w(. _))), &(String.replace(&1, ~s(  ), ~s()))) |> String.downcase}"
+  defp user_name(0) do
+    name = Faker.Name.first_name
+    |> String.replace(~s( ), ~s())
+    |> String.downcase
+    |> append(to_string(random_between(1900, 2100)))
+  end
+  defp user_name(1) do
+    "#{:random.seed(:os.timestamp); [ Faker.Name.first_name, Faker.Name.last_name  ] |> Enum.map_join(hd(Enum.shuffle(~w(. _))), &(String.replace(&1, ~s(  ), ~s()))) |> String.downcase}"
+  end
   @doc """
   Returns a random domain word
   """

@@ -1,4 +1,5 @@
 defmodule Faker.Color do
+  import Faker, only: [random: 1]
   @moduledoc """
   Functions for generating different color representations.
   """
@@ -16,13 +17,7 @@ defmodule Faker.Color do
   Return random RGB decimal value.
   """
   @spec rgb_decimal() :: {byte, byte, byte}
-  def rgb_decimal do
-    {
-      :crypto.rand_uniform(0, 256),
-      :crypto.rand_uniform(0, 256),
-      :crypto.rand_uniform(0, 256)
-    }
-  end
+  def rgb_decimal, do: {random(256), random(256), random(256)}
 
   @doc """
   Return a random color name
@@ -41,5 +36,4 @@ defmodule Faker.Color do
   end
 
   defp localised_module, do: Module.concat(__MODULE__, Faker.mlocale)
-
 end

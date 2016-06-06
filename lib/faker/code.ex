@@ -1,20 +1,18 @@
 defmodule Faker.Code do
+  import Faker, only: [random: 1]
   defdelegate isbn, to: Faker.Code, as: :isbn10
 
   def isbn10 do
-    :random.seed(:os.timestamp)
     sequence = Faker.format("#########")
     sequence <> check_digit(sequence, &calc_digit_x_index/1, 11)
   end
 
   def isbn13 do
-    :random.seed(:os.timestamp)
-    sequence = hd(Enum.shuffle(["978", "979"])) <> Faker.format("#########")
+    sequence = prefix <> Faker.format("#########")
     sequence <> check_digit(sequence, &calc_isbn13/1, 10)
   end
 
   def issn do
-    :random.seed(:os.timestamp)
     sequence = Faker.format("#######")
     sequence <> check_digit(sequence, &calc_digit_x_index/1, 11)
   end
@@ -42,4 +40,9 @@ defmodule Faker.Code do
 
   defp grapheme_to_digit("X"), do: 10
   defp grapheme_to_digit(str), do: String.to_integer(str)
+
+  defp prefix do
+    %{0 => "978", 1 => "979"}
+    |> Map.get(random(2))
+  end
 end

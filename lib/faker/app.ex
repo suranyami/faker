@@ -1,5 +1,5 @@
 defmodule Faker.App do
-  import Faker, only: [sampler: 2]
+  import Faker, only: [sampler: 2, random: 1]
 
   @moduledoc """
   Functions for generating app specific properties.
@@ -10,8 +10,8 @@ defmodule Faker.App do
   """
   @spec version() :: String.t
   def version do
-    ["0.#.#", "0.##", "#.##", "#.#", "#.#.#"]
-    |> Enum.at(:crypto.rand_uniform(0, 5))
+    %{0 => "0.#.#", 1 => "0.##", 2 => "#.##", 3 => "#.#", 4 => "#.#.#"}
+    |> Map.get(random(5))
     |> Faker.format
   end
 
@@ -26,7 +26,7 @@ defmodule Faker.App do
   """
   @spec author() :: String.t
   def author do
-    author(:crypto.rand_uniform(0, 2))
+    author(random(2))
   end
 
   defp author(0), do: Faker.Name.name

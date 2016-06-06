@@ -1,5 +1,5 @@
 defmodule Faker.Address do
-  import Faker, only: [sampler: 2]
+  import Faker, only: [sampler: 2, random: 1]
 
   @moduledoc """
   Functions for generating addresses.
@@ -10,8 +10,8 @@ defmodule Faker.Address do
   """
   @spec building_number() :: String.t
   def building_number do
-    ["#####", "####", "###", "##", "#"]
-    |> Enum.at(:crypto.rand_uniform(0, 5))
+    %{0 => "#####", 1 => "####", 2 => "###", 3 => "##", 4 => "#"}
+    |> Map.get(random(5))
     |> Faker.format
   end
 
@@ -20,7 +20,7 @@ defmodule Faker.Address do
   """
   @spec city() :: String.t
   def city do
-    city(:crypto.rand_uniform(0, 4))
+    city(random(4))
   end
 
   defp city(0), do: "#{city_prefix} #{Faker.Name.first_name}#{city_suffix}"
@@ -81,8 +81,8 @@ defmodule Faker.Address do
   """
   @spec secondary_address() :: String.t
   def secondary_address do
-    ["Apt. ###", "Suite ###"]
-    |> Enum.at(:crypto.rand_uniform(0, 2))
+    %{0 => "Apt. ###", 1 => "Suite ###"}
+    |> Map.get(random(2))
     |> Faker.format
   end
 
@@ -118,7 +118,7 @@ defmodule Faker.Address do
   """
   @spec street_name() :: String.t
   def street_name do
-    street_name(:crypto.rand_uniform(0, 2))
+    street_name(random(2))
   end
 
   defp street_name(0), do: "#{Faker.Name.first_name} #{street_suffix}"
@@ -147,8 +147,8 @@ defmodule Faker.Address do
   """
   @spec zip_code() :: String.t
   def zip_code do
-    ["#####", "#####-####"]
-    |> Enum.at(:crypto.rand_uniform(0, 2))
+    %{0 => "#####", 1 => "#####-####"}
+    |> Map.get(random(2))
     |> Faker.format
   end
 end

@@ -1,5 +1,5 @@
 defmodule Faker.Company.En do
-  import Faker, only: [sampler: 2]
+  import Faker, only: [sampler: 2, random: 1]
 
   @moduledoc """
   Functions for company data in English
@@ -57,7 +57,7 @@ defmodule Faker.Company.En do
   Returns complete english company name
   """
   @spec name() :: String.t
-  def name, do: name(:crypto.rand_uniform 0, 3)
+  def name, do: name(random(3))
   defp name(0), do: "#{Faker.Name.last_name} #{suffix}"
   defp name(1), do: "#{Faker.Name.last_name}-#{Faker.Name.last_name}"
   defp name(2) do

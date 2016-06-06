@@ -2,12 +2,15 @@ defmodule AddressTest do
   use ExUnit.Case, async: true
 
   test "building_number/0" do
-    assert is_binary(Faker.Address.building_number)
-    assert String.length(Faker.Address.building_number) in 1..5
+    for expected <- ["795", "697", "622", "26", "5416", "431", "93", "2198", "3", "811"] do
+      assert Faker.Address.building_number == expected
+    end
   end
 
   test "city/0" do
-    assert is_binary(Faker.Address.city)
+    for expected <- ["Mistyshire", "Elviestad", "Ornport", "Brycenberg", "Crooksstad", "South Helene", "New Jarrett", "Elsieland", "Yasmineborough", "West Alexis"] do
+      assert Faker.Address.city == expected
+    end
   end
 
   test "city_prefix/0" do

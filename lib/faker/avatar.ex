@@ -1,4 +1,5 @@
 defmodule Faker.Avatar do
+  import Faker, only: [random: 1]
   @moduledoc """
   Functions for generate random urls for avatars.
   """
@@ -40,12 +41,12 @@ defmodule Faker.Avatar do
   end
 
   defp bg do
-    :random.seed(:os.timestamp)
-    ~w(/bgset_bg1 /bgset_bg2) |> Enum.shuffle |> List.first
+    %{0 => "/bgset_bg1", 1 => "/bgset_bg2"}
+    |> Map.get(random(2))
   end
 
   defp set do
-    :random.seed(:os.timestamp)
-    ~w(/set_set1 /set_set2 /set_set3) |> Enum.shuffle |> List.first
+    %{0 => "/set_set1", 1 => "/set_set2", 2 => "/set_set3"}
+    |> Map.get(random(3))
   end
 end

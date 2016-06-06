@@ -1,4 +1,5 @@
 defmodule Faker.Commerce do
+  import Faker, only: [random: 1]
   @moduledoc """
   Functions for generating commerce related data
   """
@@ -24,7 +25,7 @@ defmodule Faker.Commerce do
   """
   @spec price() :: float
   def price do
-    :crypto.rand_uniform(1, 1001) / 100.0
+    (random(1000) + 1) / 100.0
   end
 
   @doc """

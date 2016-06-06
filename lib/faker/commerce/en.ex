@@ -1,5 +1,5 @@
 defmodule Faker.Commerce.En do
-  import Faker, only: [sampler: 2]
+  import Faker, only: [sampler: 2, random: 1]
 
   @moduledoc """
   Fuctions for generating commerce related data in English
@@ -22,7 +22,7 @@ defmodule Faker.Commerce.En do
   """
   @spec product_name() :: String.t
   def product_name do
-    product_name(:crypto.rand_uniform(0, 3))
+    product_name(random(3))
   end
 
   defp product_name(0), do: "#{product_name_adjective} #{product_name_material} #{product_name_product}"
