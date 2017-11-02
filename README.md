@@ -5,9 +5,9 @@ fake data.
 
 ## Quickstart
 
-* add `{:faker, "~> 0.8"}` to your deps in `mix.exs`;
+* add `{:faker, "~> 0.9"}` to your deps in `mix.exs`;
 * add `:faker` to list of your applications;
-* jump to [usage examples](https://github.com/igas/faker/blob/master/USAGE.md).
+* jump to [usage examples](#usage).
 
 Example `mix.exs`:
 
@@ -18,7 +18,7 @@ Example `mix.exs`:
   end
 ...
   defp deps do
-    [{:faker, "~> 0.8"}]
+    [{:faker, "~> 0.9"}]
   end
 ...
 ```
@@ -30,7 +30,7 @@ In your `mix.exs` file, add the `:faker` project to your dependencies
 
 ``` elixir
   defp deps do
-    [{:faker, "~> 0.8", only: :test}]
+    [{:faker, "~> 0.9", only: :test}]
   end
 ```
 
@@ -40,8 +40,8 @@ If you want to use `faker` outside tests remove `, only: :test` part.
 
 ### Requirements
 
-*   OTP18+
-*   Elixir 1.1+
+* OTP18+
+* Elixir 1.3+
 
 ## Usage
 
@@ -49,7 +49,7 @@ You need to start `:faker` application, but due to the many usages of fake data,
 (seed database, tests, etc) there's no right place to do it. For example, if you
 want to use it in tests, just add `Faker.start` to `test/test_helper.exs`, then,
 use any function described in the [documentation](http://hexdocs.pm/faker/) or
-in [usage examples](https://github.com/igas/faker/blob/master/USAGE.md).
+in [usage examples](USAGE.md).
 
 ## Troubleshooting
 
